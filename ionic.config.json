@@ -1,0 +1,7 @@
+{
+  "name": "Farmacias",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
