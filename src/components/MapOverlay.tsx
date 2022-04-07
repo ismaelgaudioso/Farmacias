@@ -2,11 +2,12 @@ import { IonBadge, IonButton, IonCardSubtitle, IonCol, IonIcon, IonNote, IonRow 
 import { call, callOutline, navigateOutline } from "ionicons/icons";
 import styles from "./MapOverlay.module.scss";
 
-export const MapOverlay = () => (
+export const MapOverlay = ( {record} : any ) => (
+
     <div className={ styles.overlayContainer }>
 
-        <IonCardSubtitle>Registro </IonCardSubtitle>
-        <IonNote color="medium">Dirección registro 1</IonNote>
+        <IonCardSubtitle>{ record.name } </IonCardSubtitle>
+        <IonNote color="medium">{ record.address }</IonNote>
 
         <p>
             <IonIcon icon={navigateOutline} />

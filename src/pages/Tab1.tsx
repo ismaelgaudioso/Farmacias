@@ -28,7 +28,7 @@ const Tab1: React.FC = () => {
   const records = RecordsStore.useState(fetchRecords);
 
   //const [markerPosition] = useState({ latitude: 41.578633, longitude: -1.114111 });
-  const [results, setResults] = useState(false);
+  const [results, setResults] = useState(records);
 
   const web = isPlatform("desktop" || "pwa" || "mobileweb" || "");
 
@@ -38,9 +38,15 @@ const Tab1: React.FC = () => {
     getRecords(currentPoint);
   });
 
+  useEffect(() => {
+		setResults([...records]);
+	}, [ records ]);
+
 
   const hideMarkers = () => {
-    setResults(false);
+    const tempRecords = JSON.parse(JSON.stringify(results));
+    tempRecords.forEach( (tempRecord: { showInfo: boolean; }) => tempRecord.showInfo = false);
+    setResults(tempRecords);
     setShowCurrentPointInfo(false);
   }
 
@@ -52,7 +58,7 @@ const Tab1: React.FC = () => {
     !tempRecords[index].showInfo && tempRecords.forEach((tempRecord: { showInfo: boolean; }) => tempRecord.showInfo = false);
     tempRecords[index].showInfo = !tempRecords[index].showInfo;
 
-    //setResults(!results);
+    setResults(tempRecords);
 
   }
 
@@ -96,7 +102,7 @@ const Tab1: React.FC = () => {
             }
 
 
-            {records.map((record: any, index: any) => {
+            {results.map((record: any, index: any) => {
 
               return <Marker
                 onClick={e => showMarkerInfo(e, index)}
@@ -107,13 +113,12 @@ const Tab1: React.FC = () => {
 
             })}
 
-            {records.map((record: any, index: any) => {
+            {results.map((record: any, index: any) => {
 
               if (record.showInfo) {
-
                 return (
-                  <Overlay key={index} anchor={[record.latitude, record.longitude]} offset={[95, 304]}>
-                    <MapOverlay />
+                  <Overlay key={index} anchor={[record.latitude, record.longitude]} offset={[95, 210]}>
+                    <MapOverlay record={ record } />
                   </Overlay>
                 );
               }
