@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "name": "objeto 1",
+        "address": "Calle Zaragoza,2",
+        "latitude": 41.57913,
+        "longitude": -1.11672
+    },
+    {
+        "id": 2,
+        "name": "objeto 2",
+        "address": "Calle Monzalbarba,8",
+        "latitude": 41.58067,
+        "longitude": -1.11387
+    }
+]
