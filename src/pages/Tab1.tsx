@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewDidEnter, isPlatform, IonCardSubtitle, IonNote, IonFab, IonFabButton, IonIcon, IonBadge, IonRow, IonCol, IonButton } from '@ionic/react';
+import { IonModal, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, useIonViewDidEnter, isPlatform, IonCardSubtitle, IonNote, IonFab, IonFabButton, IonIcon, IonBadge, IonRow, IonCol, IonButton } from '@ionic/react';
 import { list } from 'ionicons/icons';
 
 import { Map, Marker, Overlay } from "pigeon-maps";
@@ -8,6 +8,7 @@ import { maptiler } from 'pigeon-maps/providers';
 
 import { MapOverlay } from '../components/MapOverlay';
 import { CurrentPointOverlay } from '../components/CurrentPointOverlay';
+import { ListModal } from '../components/ListModal';
 
 import './Tab1.css';
 import { getRecords } from '../data/data';
@@ -30,6 +31,9 @@ const Tab1: React.FC = () => {
   //const [markerPosition] = useState({ latitude: 41.578633, longitude: -1.114111 });
   const [results, setResults] = useState(records);
 
+  const [showListModal, setShowListModal] = useState(false);
+  const [searchTerm,setSearchTerm] = useState("");
+
   const web = isPlatform("desktop" || "pwa" || "mobileweb" || "");
 
 
@@ -39,13 +43,13 @@ const Tab1: React.FC = () => {
   });
 
   useEffect(() => {
-		setResults([...records]);
-	}, [ records ]);
+    setResults([...records]);
+  }, [records]);
 
 
   const hideMarkers = () => {
     const tempRecords = JSON.parse(JSON.stringify(results));
-    tempRecords.forEach( (tempRecord: { showInfo: boolean; }) => tempRecord.showInfo = false);
+    tempRecords.forEach((tempRecord: { showInfo: boolean; }) => tempRecord.showInfo = false);
     setResults(tempRecords);
     setShowCurrentPointInfo(false);
   }
@@ -118,7 +122,7 @@ const Tab1: React.FC = () => {
               if (record.showInfo) {
                 return (
                   <Overlay key={index} anchor={[record.latitude, record.longitude]} offset={[95, 210]}>
-                    <MapOverlay record={ record } />
+                    <MapOverlay record={record} />
                   </Overlay>
                 );
               }
@@ -127,14 +131,32 @@ const Tab1: React.FC = () => {
 
 
 
-            <IonFab vertical="bottom" horizontal="start" slot="fixed" onClick={() => alert("Lista")}>
-              <IonFabButton>
-                <IonIcon icon={list} />
-              </IonFabButton>
-            </IonFab>
+
 
 
           </Map>
+
+          <IonFab vertical="bottom" horizontal="start" slot="fixed" onClick={() => setShowListModal(!showListModal)}>
+            <IonFabButton>
+              <IonIcon icon={list} />
+            </IonFabButton>
+          </IonFab>
+
+          <IonModal
+            isOpen={showListModal}
+            onDidDismiss={() => setShowListModal(false)}
+            swipeToClose={true}
+            initialBreakpoint={0.6}
+            breakpoints={[0, 0.6, 1]}
+            backdropBreakpoint={0.6}
+          >
+            <ListModal 
+            hideModal={false}
+            searchTerm={searchTerm}
+            search={false}
+            records={results}
+            />
+          </IonModal>
         </div>
       </IonContent>
     </IonPage>
