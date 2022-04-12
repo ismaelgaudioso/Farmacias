@@ -8,5 +8,6 @@ export const fetchRecords = createSelector(getState, state => state.records);
 //  More specific getters
 export const fetchRecord = (recordId: any) => createSelector(getState, state => {
 
-	return state.records.filter((record: { id: any; }) => record.id === recordId)[0];
+	return state.records.filter( (record:any) => record.id == recordId)[0];
+
 });

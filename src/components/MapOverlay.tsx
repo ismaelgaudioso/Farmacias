@@ -17,7 +17,7 @@ export const MapOverlay = ( {record} : any ) => (
 
         <IonRow className="ion-no-padding ion-no-margin ion-margin-top">
             <IonCol size="12" className="ion-no-padding ion-no-margin">
-                <IonButton color="primary" fill="solid" size="small" expand="block" routerLink={`/list/26`}>
+                <IonButton color="primary" fill="solid" size="small" expand="block" routerLink={ `/list/${ record.id }`}>
                     View &rarr;
                 </IonButton>
             </IonCol>

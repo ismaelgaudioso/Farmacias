@@ -32,7 +32,7 @@ const Tab1: React.FC = () => {
   const [results, setResults] = useState(records);
 
   const [showListModal, setShowListModal] = useState(false);
-  const [searchTerm,setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const web = isPlatform("desktop" || "pwa" || "mobileweb" || "");
 
@@ -79,54 +79,56 @@ const Tab1: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Tab 1</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <div className="map-container">
-          <Map
-            attributionPrefix={false}
-            defaultCenter={[currentPoint.latitude, currentPoint.longitude]}
-            defaultZoom={16}
-            minZoom={15}
-            provider={maptilerProvider}
-          >
+        {results &&
+          <>
+            <IonHeader collapse="condense">
+              <IonToolbar>
+                <IonTitle size="large">Tab 1</IonTitle>
+              </IonToolbar>
+            </IonHeader>
+            <div className="map-container">
+              <Map
+                attributionPrefix={false}
+                defaultCenter={[currentPoint.latitude, currentPoint.longitude]}
+                defaultZoom={16}
+                minZoom={15}
+                provider={maptilerProvider}
+              >
 
-            <Marker
-              onClick={handleShowCurrentPointInfo}
-              color="red"
-              width={50}
-              anchor={[currentPoint.latitude, currentPoint.longitude]}
-            />
-            {showCurrentPointInfo &&
-              <Overlay anchor={[currentPoint.latitude, currentPoint.longitude]} offset={[95, 140]}>
-                <CurrentPointOverlay />
-              </Overlay>
-            }
-
-
-            {results.map((record: any, index: any) => {
-
-              return <Marker
-                onClick={e => showMarkerInfo(e, index)}
-                key={index}
-                color="#3578e5"
-                width={40}
-                anchor={[record.latitude, record.longitude]} />
-
-            })}
-
-            {results.map((record: any, index: any) => {
-
-              if (record.showInfo) {
-                return (
-                  <Overlay key={index} anchor={[record.latitude, record.longitude]} offset={[95, 210]}>
-                    <MapOverlay record={record} />
+                <Marker
+                  onClick={handleShowCurrentPointInfo}
+                  color="red"
+                  width={50}
+                  anchor={[currentPoint.latitude, currentPoint.longitude]}
+                />
+                {showCurrentPointInfo &&
+                  <Overlay anchor={[currentPoint.latitude, currentPoint.longitude]} offset={[95, 140]}>
+                    <CurrentPointOverlay />
                   </Overlay>
-                );
-              }
-            })}
+                }
+
+
+                {results.map((record: any, index: any) => {
+
+                  return <Marker
+                    onClick={e => showMarkerInfo(e, index)}
+                    key={index}
+                    color="#3578e5"
+                    width={40}
+                    anchor={[record.latitude, record.longitude]} />
+
+                })}
+
+                {results.map((record: any, index: any) => {
+
+                  if (record.showInfo) {
+                    return (
+                      <Overlay key={index} anchor={[record.latitude, record.longitude]} offset={[95, 210]}>
+                        <MapOverlay record={record} />
+                      </Overlay>
+                    );
+                  }
+                })}
 
 
 
@@ -134,30 +136,32 @@ const Tab1: React.FC = () => {
 
 
 
-          </Map>
+              </Map>
 
-          <IonFab vertical="bottom" horizontal="start" slot="fixed" onClick={() => setShowListModal(!showListModal)}>
-            <IonFabButton>
-              <IonIcon icon={list} />
-            </IonFabButton>
-          </IonFab>
+              <IonFab vertical="bottom" horizontal="start" slot="fixed" onClick={() => setShowListModal(!showListModal)}>
+                <IonFabButton>
+                  <IonIcon icon={list} />
+                </IonFabButton>
+              </IonFab>
 
-          <IonModal
-            isOpen={showListModal}
-            onDidDismiss={() => setShowListModal(false)}
-            swipeToClose={true}
-            initialBreakpoint={0.6}
-            breakpoints={[0, 0.6, 1]}
-            backdropBreakpoint={0.6}
-          >
-            <ListModal 
-            hideModal={false}
-            searchTerm={searchTerm}
-            search={false}
-            records={results}
-            />
-          </IonModal>
-        </div>
+              <IonModal
+                isOpen={showListModal}
+                onDidDismiss={() => setShowListModal(false)}
+                swipeToClose={true}
+                initialBreakpoint={0.6}
+                breakpoints={[0, 0.6, 1]}
+                backdropBreakpoint={0.6}
+              >
+                <ListModal
+                  hideModal={() => setShowListModal(false)}
+                  searchTerm={searchTerm}
+                  search={setSearchTerm}
+                  records={results}
+                />
+              </IonModal>
+            </div>
+          </>
+        }
       </IonContent>
     </IonPage>
   );

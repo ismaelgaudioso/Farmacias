@@ -32,6 +32,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import ViewPlace from './pages/ViewPlace';
 
 setupIonicReact();
 
@@ -48,6 +49,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/">
             <Redirect to="/tab1" />
+          </Route>
+          <Route exact path="/list/:id">
+            <ViewPlace />
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
